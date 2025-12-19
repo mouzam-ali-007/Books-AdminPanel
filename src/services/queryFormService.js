@@ -7,28 +7,25 @@ const api = axios.create({
 });
 
 export const queryFormService = {
-    async getOrderForms(params = {}) {
-        const {
-            page = 1,
-            rowsPerPage = 10,
-            sortBy = 'createdAt',
-            sortOrder = 'desc',
-            search = ''
-        } = params;
+    async getOrderForms() {
+       
 
         try {
-            const response = await api.get(API_ENDPOINTS.QUERY_FORMS, {
-                params: {
-                    page,
-                    rowsPerPage,
-                    sortBy,
-                    sortOrder,
-                    search
-                }
+            const response = await api.get(API_ENDPOINTS.ORDER_FORMS, {
+               
             });
             return response.data;
         } catch (error) {
             throw new Error(error.response?.data?.message || 'Failed to fetch order forms');
+        }
+    },
+
+    async getAllReviews() {
+        try {
+            const response = await api.get(API_ENDPOINTS.GET_ALL_REVIEWS);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data?.message || 'Failed to fetch reviews');
         }
     },
 
