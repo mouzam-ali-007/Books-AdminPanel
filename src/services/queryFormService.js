@@ -29,6 +29,15 @@ export const queryFormService = {
         }
     },
 
+    async updateReviewStatus(id, data) {
+        try {
+            const response = await api.put(`${API_ENDPOINTS.UPDATE_REVIEW}/${id}`, data);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data?.message || 'Failed to update review status');
+        }
+    },
+
     async deleteQueryForm(id) {
         try {
             await api.delete(`${API_ENDPOINTS.QUERY_FORMS}/${id}`);

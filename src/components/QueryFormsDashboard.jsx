@@ -111,6 +111,10 @@ const QueryFormsDashboard = memo(() => {
         setDialogOpen(true);
     };
 
+    const handleComments = (row) => {
+        setSelectedForm(row);
+        setDialogOpen(true);
+    };
     const handleDelete = (id) => {
         setDeleteDialog({ open: true, id });
     };
@@ -361,6 +365,24 @@ const QueryFormsDashboard = memo(() => {
                     </Typography>
                 </Box>
             )
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            width: 100,
+            sortable: false,
+            renderCell: (params) => (
+                <Box>
+                    <IconButton
+                        size="small"
+                        onClick={() => handleComments(params.row)}
+                        color="primary"
+                    >
+                        <Visibility fontSize="small" />
+                    </IconButton>
+
+                </Box>
+            )
         }
     ];
 
@@ -433,9 +455,11 @@ const QueryFormsDashboard = memo(() => {
                             rowCount={getFilteredRows().length} // Update rowCount to match filtered rows for proper client pagination handling
                             pageSizeOptions={[5, 10, 20, 50]}
                             disableRowSelectionOnClick
+                            getRowHeight={() => 'auto'}
                             sx={{
                                 '& .MuiDataGrid-cell': {
-                                    borderBottom: '1px solid #f0f0f0'
+                                    borderBottom: '1px solid #f0f0f0',
+                                    py: 1 // Add some vertical padding for auto-height rows
                                 }
                             }}
                         />

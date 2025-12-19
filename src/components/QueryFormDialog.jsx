@@ -19,20 +19,18 @@ const QueryFormDialog = memo(({ open, onClose, formData }) => {
     };
 
     const fields = [
-        { label: 'First Name', value: formData.firstName },
-        { label: 'Last Name', value: formData.lastName },
+        { label: 'First Name', value: formData.fullName },
+
         { label: 'Email', value: formData.email },
         { label: 'Phone', value: formData.phone },
-        { label: 'Residency', value: formData.residency },
-        { label: 'Nationality', value: formData.nationality },
-        { label: 'Preferred Language', value: formData.preferredLanguage },
+        { label: 'Status', value: formData.status },
         { label: 'Created At', value: formatDate(formData.createdAt) }
     ];
 
     return (
         <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
             <DialogTitle>
-                Query Form Submission Details
+                Details
             </DialogTitle>
             <DialogContent>
                 <Grid container spacing={3}>
@@ -47,26 +45,7 @@ const QueryFormDialog = memo(({ open, onClose, formData }) => {
                         </Grid>
                     ))}
 
-                    <Grid item xs={12}>
-                        <Divider sx={{ my: 2 }} />
-                        <Typography variant="subtitle2" color="textSecondary" gutterBottom>
-                            Message
-                        </Typography>
-                        <Box
-                            sx={{
-                                p: 2,
-                                bgcolor: 'grey.50',
-                                borderRadius: 1,
-                                minHeight: 100,
-                                maxHeight: 200,
-                                overflow: 'auto'
-                            }}
-                        >
-                            <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
-                                {formData.message || 'No message provided'}
-                            </Typography>
-                        </Box>
-                    </Grid>
+
                 </Grid>
             </DialogContent>
             <DialogActions>

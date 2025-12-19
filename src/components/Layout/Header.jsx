@@ -129,7 +129,7 @@ const Header = ({ onMenuClick, drawerWidth, sidebarOpen }) => {
                         }
                     }}
                 >
-                    <MenuItem
+                    {/* <MenuItem
                         onClick={handleMenuClose}
                         sx={{
                             py: 1.5,
@@ -141,7 +141,7 @@ const Header = ({ onMenuClick, drawerWidth, sidebarOpen }) => {
                     >
                         <Person sx={{ mr: 2, fontSize: 20 }} />
                         Profile
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem
                         onClick={handleMenuClose}
                         sx={{
