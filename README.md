@@ -32,3 +32,7 @@ Radio pre payment / Cod cash on delivery
 
 Reiview structure /Admin Approval
 
+
+pre payment credit card / bank transfer option
+
+thanks MOdal 

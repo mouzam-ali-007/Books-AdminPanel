@@ -130,11 +130,32 @@ const QueryFormsDashboard = memo(() => {
         }
     };
 
+    const handleUpdateStatus = async (id, status) => {
+        try {
+            await queryFormService.updateOrderStatus(id, status);
+            fetchData();
+            setDialogOpen(false);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString();
     };
 
     const columns = [
+        {
+            field: 'id',
+            headerName: 'Order ID',
+            width: 130,
+            sortable: true,
+            renderCell: (params) => (
+                <Typography variant="caption" color="textSecondary" title={params.value}>
+                    {params.value && params.value.length > 10 ? `${params.value.substring(0, 10)}...` : params.value}
+                </Typography>
+            )
+        },
         {
             field: 'fullName',
             headerName: 'Full Name',
@@ -400,7 +421,7 @@ const QueryFormsDashboard = memo(() => {
                             color: activeTab === 'forms' ? 'primary.main' : 'text.secondary'
                         }}
                     >
-                        All Forms
+                        All Forms ({orders.length})
                     </Button>
                     <Button
                         onClick={() => { setActiveTab('reviews'); setPaginationModel(prev => ({ ...prev, page: 0 })); }}
@@ -471,6 +492,7 @@ const QueryFormsDashboard = memo(() => {
                 open={dialogOpen}
                 onClose={() => setDialogOpen(false)}
                 formData={selectedForm}
+                onUpdateStatus={handleUpdateStatus}
             />
 
             <Dialog

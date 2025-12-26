@@ -45,5 +45,14 @@ export const queryFormService = {
         } catch (error) {
             throw new Error(error.response?.data?.message || 'Failed to delete query form');
         }
+    },
+
+    async updateOrderStatus(id, status) {
+        try {
+            const response = await api.put(`${API_ENDPOINTS.UPDATE_ORDER}/${id}`, { status });
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data?.message || 'Failed to update order status');
+        }
     }
 };
