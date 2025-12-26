@@ -445,27 +445,22 @@ const QueryFormsDashboard = memo(() => {
                     >
                         User Comments ({reviews.length ? reviews.length : ''})
                     </Button>
+
+
                 </Box>
 
                 {activeTab === 'forms' && (
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography variant="h5">
+                    <>
+                        <Typography variant="h5" sx={{ mb: 2 }}>
                             Order Forms
                         </Typography>
-                        <IconButton onClick={fetchData} title="Refresh Data" color="primary">
-                            <Refresh />
-                        </IconButton>
-                    </Box>
+
+                    </>
                 )}
                 {activeTab === 'reviews' && (
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-                        <Typography variant="h5">
-                            User Reviews
-                        </Typography>
-                        <IconButton onClick={fetchData} title="Refresh Data" color="primary">
-                            <Refresh />
-                        </IconButton>
-                    </Box>
+                    <Typography variant="h5" sx={{ mb: 2 }}>
+                        User Reviews
+                    </Typography>
                 )}
             </Box>
 
