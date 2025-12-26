@@ -18,6 +18,7 @@ import {
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { authService } from '../../services/authService';
 
 const Header = ({ onMenuClick, drawerWidth, sidebarOpen }) => {
     const navigate = useNavigate();
@@ -30,7 +31,11 @@ const Header = ({ onMenuClick, drawerWidth, sidebarOpen }) => {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
-        // navigate('/');
+    };
+
+    const handleLogout = () => {
+        authService.logout();
+        navigate('/login', { replace: true });
     };
 
     return (
@@ -143,7 +148,7 @@ const Header = ({ onMenuClick, drawerWidth, sidebarOpen }) => {
                         Profile
                     </MenuItem> */}
                     <MenuItem
-                        onClick={handleMenuClose}
+                        onClick={handleLogout}
                         sx={{
                             py: 1.5,
                             px: 2,
