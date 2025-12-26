@@ -19,6 +19,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Visibility, Delete } from '@mui/icons-material';
 import { queryFormService } from '../services/queryFormService.js';
 import QueryFormDialog from './QueryFormDialog';
+import ReviewDetailsDialog from './ReviewDetailsDialog';
 
 const QueryFormsDashboard = memo(() => {
     const [activeTab, setActiveTab] = useState('forms'); // 'forms' or 'reviews'
@@ -140,13 +141,23 @@ const QueryFormsDashboard = memo(() => {
         }
     };
 
+    const handleUpdateReviewStatus = async (id, data) => {
+        try {
+            await queryFormService.updateReviewStatus(id, data);
+            fetchData();
+            setDialogOpen(false);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString();
     };
 
     const columns = [
         {
-            field: 'id',
+            field: 'orderId',
             headerName: 'Order ID',
             width: 130,
             sortable: true,
@@ -488,12 +499,21 @@ const QueryFormsDashboard = memo(() => {
                 </CardContent>
             </Card>
 
-            <QueryFormDialog
-                open={dialogOpen}
-                onClose={() => setDialogOpen(false)}
-                formData={selectedForm}
-                onUpdateStatus={handleUpdateStatus}
-            />
+            {activeTab === 'forms' ? (
+                <QueryFormDialog
+                    open={dialogOpen}
+                    onClose={() => setDialogOpen(false)}
+                    formData={selectedForm}
+                    onUpdateStatus={handleUpdateStatus}
+                />
+            ) : (
+                <ReviewDetailsDialog
+                    open={dialogOpen}
+                    onClose={() => setDialogOpen(false)}
+                    reviewData={selectedForm}
+                    onUpdateStatus={handleUpdateReviewStatus}
+                />
+            )}
 
             <Dialog
                 open={deleteDialog.open}
