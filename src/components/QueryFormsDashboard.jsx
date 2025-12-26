@@ -16,7 +16,7 @@ import {
     Button
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { Visibility, Delete } from '@mui/icons-material';
+import { Visibility, Delete, Refresh } from '@mui/icons-material';
 import { queryFormService } from '../services/queryFormService.js';
 import QueryFormDialog from './QueryFormDialog';
 import ReviewDetailsDialog from './ReviewDetailsDialog';
@@ -443,19 +443,29 @@ const QueryFormsDashboard = memo(() => {
                             color: activeTab === 'reviews' ? 'primary.main' : 'text.secondary'
                         }}
                     >
-                        User Comments
+                        User Comments ({reviews.length ? reviews.length : ''})
                     </Button>
                 </Box>
 
                 {activeTab === 'forms' && (
-                    <Typography variant="h5" sx={{ mb: 2 }}>
-                        Order Forms
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                        <Typography variant="h5">
+                            Order Forms
+                        </Typography>
+                        <IconButton onClick={fetchData} title="Refresh Data" color="primary">
+                            <Refresh />
+                        </IconButton>
+                    </Box>
                 )}
                 {activeTab === 'reviews' && (
-                    <Typography variant="h5" sx={{ mb: 2 }}>
-                        User Reviews
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                        <Typography variant="h5">
+                            User Reviews
+                        </Typography>
+                        <IconButton onClick={fetchData} title="Refresh Data" color="primary">
+                            <Refresh />
+                        </IconButton>
+                    </Box>
                 )}
             </Box>
 

@@ -41,7 +41,7 @@ const QueryFormDialog = memo(({ open, onClose, formData, onUpdateStatus }) => {
                 <Box>
                     Order Details
                     <Typography variant="caption" display="block" color="textSecondary">
-                        ID: {formData.id || formData._id}
+                        ID: {formData.orderId || formData._id}
                     </Typography>
                 </Box>
                 <Chip
@@ -84,11 +84,11 @@ const QueryFormDialog = memo(({ open, onClose, formData, onUpdateStatus }) => {
                                 <Typography variant="subtitle2" color="textSecondary">Address</Typography>
                                 <Typography variant="body1">
                                     {[
-                                        formData.shipping?.address,
-                                        formData.shipping?.city,
-                                        formData.shipping?.state,
-                                        formData.shipping?.zipCode,
-                                        formData.shipping?.country
+                                        formData.customer?.address,
+                                        formData.customer?.city,
+                                        formData.customer?.state,
+                                        formData.customer?.postalCode,
+
                                     ].filter(Boolean).join(', ') || 'N/A'}
                                 </Typography>
                             </Box>
