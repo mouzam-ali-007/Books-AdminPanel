@@ -16,9 +16,10 @@ import {
     Button
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { Visibility, Delete } from '@mui/icons-material';
+import { Visibility, Delete, Refresh } from '@mui/icons-material';
 import { queryFormService } from '../services/queryFormService.js';
 import QueryFormDialog from './QueryFormDialog';
+import ReviewDetailsDialog from './ReviewDetailsDialog';
 
 const QueryFormsDashboard = memo(() => {
     const [activeTab, setActiveTab] = useState('forms'); // 'forms' or 'reviews'
@@ -130,11 +131,42 @@ const QueryFormsDashboard = memo(() => {
         }
     };
 
+    const handleUpdateStatus = async (id, status) => {
+        try {
+            await queryFormService.updateOrderStatus(id, status);
+            fetchData();
+            setDialogOpen(false);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    const handleUpdateReviewStatus = async (id, data) => {
+        try {
+            await queryFormService.updateReviewStatus(id, data);
+            fetchData();
+            setDialogOpen(false);
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString();
     };
 
     const columns = [
+        {
+            field: 'orderId',
+            headerName: 'Order ID',
+            width: 130,
+            sortable: true,
+            renderCell: (params) => (
+                <Typography variant="caption" color="textSecondary" title={params.value}>
+                    {params.value && params.value.length > 10 ? `${params.value.substring(0, 10)}...` : params.value}
+                </Typography>
+            )
+        },
         {
             field: 'fullName',
             headerName: 'Full Name',
@@ -400,7 +432,7 @@ const QueryFormsDashboard = memo(() => {
                             color: activeTab === 'forms' ? 'primary.main' : 'text.secondary'
                         }}
                     >
-                        All Forms
+                        All Forms ({orders.length})
                     </Button>
                     <Button
                         onClick={() => { setActiveTab('reviews'); setPaginationModel(prev => ({ ...prev, page: 0 })); }}
@@ -411,14 +443,19 @@ const QueryFormsDashboard = memo(() => {
                             color: activeTab === 'reviews' ? 'primary.main' : 'text.secondary'
                         }}
                     >
-                        User Comments
+                        User Comments ({reviews.length ? reviews.length : ''})
                     </Button>
+
+
                 </Box>
 
                 {activeTab === 'forms' && (
-                    <Typography variant="h5" sx={{ mb: 2 }}>
-                        Order Forms
-                    </Typography>
+                    <>
+                        <Typography variant="h5" sx={{ mb: 2 }}>
+                            Order Forms
+                        </Typography>
+
+                    </>
                 )}
                 {activeTab === 'reviews' && (
                     <Typography variant="h5" sx={{ mb: 2 }}>
@@ -467,11 +504,21 @@ const QueryFormsDashboard = memo(() => {
                 </CardContent>
             </Card>
 
-            <QueryFormDialog
-                open={dialogOpen}
-                onClose={() => setDialogOpen(false)}
-                formData={selectedForm}
-            />
+            {activeTab === 'forms' ? (
+                <QueryFormDialog
+                    open={dialogOpen}
+                    onClose={() => setDialogOpen(false)}
+                    formData={selectedForm}
+                    onUpdateStatus={handleUpdateStatus}
+                />
+            ) : (
+                <ReviewDetailsDialog
+                    open={dialogOpen}
+                    onClose={() => setDialogOpen(false)}
+                    reviewData={selectedForm}
+                    onUpdateStatus={handleUpdateReviewStatus}
+                />
+            )}
 
             <Dialog
                 open={deleteDialog.open}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Avatar, Button, TextField, Link, Grid, Box, Typography, Container, Card, CardContent } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { login, isAuthenticated } from '../auth'
+import { authService } from '../../services/authService'
 
 export default function Login() {
     const navigate = useNavigate()
@@ -12,16 +12,17 @@ export default function Login() {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        const ok = login(email, password)
+        const ok = authService.login(email, password)
         if (ok) {
-            navigate('/admin/queries')
+            navigate('/', { replace: true })
         } else {
             setError('Invalid credentials')
         }
     }
 
-    if (isAuthenticated()) {
-        navigate('/admin/queries')
+    if (authService.isAuthenticated()) {
+        navigate('/', { replace: true })
+        return null;
     }
 
     return (
@@ -41,10 +42,10 @@ export default function Login() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    autoComplete="email"
+                                    id="name"
+                                    label="User name"
+                                    name="name"
+                                    autoComplete="name"
                                     autoFocus
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}

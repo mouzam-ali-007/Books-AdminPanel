@@ -8,11 +8,11 @@ const api = axios.create({
 
 export const queryFormService = {
     async getOrderForms() {
-       
+
 
         try {
             const response = await api.get(API_ENDPOINTS.ORDER_FORMS, {
-               
+
             });
             return response.data;
         } catch (error) {
@@ -23,6 +23,7 @@ export const queryFormService = {
     async getAllReviews() {
         try {
             const response = await api.get(API_ENDPOINTS.GET_ALL_REVIEWS);
+            console.log("getAllReviews", response)
             return response.data;
         } catch (error) {
             throw new Error(error.response?.data?.message || 'Failed to fetch reviews');
@@ -44,6 +45,15 @@ export const queryFormService = {
             return { success: true };
         } catch (error) {
             throw new Error(error.response?.data?.message || 'Failed to delete query form');
+        }
+    },
+
+    async updateOrderStatus(id, status) {
+        try {
+            const response = await api.put(`${API_ENDPOINTS.UPDATE_ORDER}/${id}`, { status });
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data?.message || 'Failed to update order status');
         }
     }
 };
